@@ -158,6 +158,7 @@ CG_INLINE BOOL isIPhone4() {
         self.tapDismissAction = TapActionNone;
         //allows us to use this without needing to store a reference in calling class
         self.selfReference = self;
+        self.arrowDirections = UIPopoverArrowDirectionAny;
     }
 
     return self;
@@ -670,14 +671,14 @@ CG_INLINE BOOL isIPhone4() {
 - (void)presentPopover:(UIPopoverController *)popover {
     NSParameterAssert(popover != NULL);
     if (self.barButtonItem) {
-        [popover presentPopoverFromBarButtonItem:_barButtonItem permittedArrowDirections:UIPopoverArrowDirectionAny
+        [popover presentPopoverFromBarButtonItem:_barButtonItem permittedArrowDirections:_arrowDirections
                                         animated:YES];
         return;
     }
     else if ((self.containerView)) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [popover presentPopoverFromRect:_containerView.bounds inView:_containerView
-                   permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+                   permittedArrowDirections:_arrowDirections animated:YES];
 
         });
         return;
@@ -690,7 +691,7 @@ CG_INLINE BOOL isIPhone4() {
         presentRect = origin.bounds;
         dispatch_async(dispatch_get_main_queue(), ^{
             [popover presentPopoverFromRect:presentRect inView:origin
-                   permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+                   permittedArrowDirections:_arrowDirections animated:YES];
 
         });
     }
@@ -699,7 +700,7 @@ CG_INLINE BOOL isIPhone4() {
         presentRect = CGRectMake(origin.center.x, origin.center.y, 1, 1);
         dispatch_async(dispatch_get_main_queue(), ^{
             [popover presentPopoverFromRect:presentRect inView:origin
-                   permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+                   permittedArrowDirections:_arrowDirections animated:YES];
 
         });
     }
